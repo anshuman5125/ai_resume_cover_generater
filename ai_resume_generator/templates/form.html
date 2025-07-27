@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Resume & Cover Letter Generator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <h2 class="text-center mb-4">AI Resume & Cover Letter Generator</h2>
+    <form id="generatorForm" class="p-4 bg-white rounded shadow">
+        <div class="mb-3">
+            <label class="form-label">Full Name</label>
+            <input type="text" name="name" class="form-control" required>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Phone</label>
+                <input type="text" name="phone" class="form-control" required>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Skills (comma-separated)</label>
+            <input type="text" name="skills" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Experience Summary</label>
+            <textarea name="experience" class="form-control" rows="3" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Career Goals / Personal Summary</label>
+            <textarea name="goals" class="form-control" rows="3" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Job Role / Target Position</label>
+            <input type="text" name="job_role" class="form-control" required>
+        </div>
+        <div class="d-flex gap-2">
+            <button type="button" id="generateResume" class="btn btn-primary">Generate Resume</button>
+            <button type="button" id="generateCover" class="btn btn-success">Generate Cover Letter</button>
+        </div>
+    </form>
+
+    <div id="resultSection" class="mt-5 d-none">
+        <h4 class="mb-3">Generated Output</h4>
+        <div class="border p-3 bg-white rounded shadow">
+            <pre id="outputText" class="mb-0"></pre>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    function generate(endpoint) {
+        $('#outputText').text("Generating with AI... Please wait...");
+        $('#resultSection').removeClass('d-none');
+
+        $.post(endpoint, $('#generatorForm').serialize(), function(response) {
+            $('#outputText').text(response.result);
+        });
+    }
+
+    $('#generateResume').click(function() {
+        generate('/generate_resume_ai');
+    });
+
+    $('#generateCover').click(function() {
+        generate('/generate_cover_letter_ai');
+    });
+});
+</script>
+</body>
+</html>
